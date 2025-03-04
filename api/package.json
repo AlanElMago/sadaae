@@ -1,0 +1,25 @@
+{
+  "name": "sadaae-api",
+  "version": "0.1.0",
+  "description": "RESTful API para el sistema SADAAE",
+  "keywords": [
+    "RESTful",
+    "API"
+  ],
+  "license": "MIT",
+  "author": "Alan Franco",
+  "type": "module",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon --inspect=0.0.0.0:9229 server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongoose": "^8.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

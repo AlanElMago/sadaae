@@ -1,0 +1,30 @@
+name: sadaae
+
+services:
+  ### Servicio del RESTful API ###
+  api:
+    container_name: sadaae-api
+    image: alanelmago/sadaee-api:0.1.0
+    build:
+      context: api
+      target: ${TARGET:-debug}
+    develop:
+      watch:
+        - action: sync
+          path: api
+          target: /app
+          ignore:
+            - api/node_modules
+    env_file:
+      - path: api/default.env
+        required: true
+      - path: api/override.env
+        required: false
+    ports:
+      - ${API_PORT:-3000}:${API_PORT:-3000}
+    networks:
+      - local_network
+
+networks:
+  local_network:
+    driver: bridge
