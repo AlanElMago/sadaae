@@ -21,7 +21,9 @@ services:
   keycloak:
     container_name: sadaae-keycloak
     image: quay.io/keycloak/keycloak:26.1.3
-    command: ["start-dev"]
+    build:
+      context: keycloak
+      target: ${TARGET:-debug}
     env_file:
       - path: keycloak/default.env
         required: true
