@@ -5,6 +5,7 @@ const config = {
   OPENID_BASE_URL: process.env.OPENID_BASE_URL || 'http://localhost',
   OPENID_CLIENT_ID: process.env.OPENID_CLIENT_ID || 'sadaae-api',
   OPENID_CLIENT_SECRET: process.env.OPENID_CLIENT_SECRET || 'hnSbkknjye4WMUcV3om0CgIgM1wSGA1Y',
+  OPENID_SECRET: process.env.OPENID_SECRET || 'my-secret',
 };
 
 export default config;
