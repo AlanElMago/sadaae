@@ -11,6 +11,13 @@ const app = express();
 // middleware
 app.use(express.json());
 app.use(auth(openidConfig));
+app.use((err, req, res, next) => {
+  if (err.status === http.constants.HTTP_STATUS_UNAUTHORIZED) {
+    return res.status(http.constants.HTTP_STATUS_UNAUTHORIZED).json({ message: 'No autorizado!' });
+  }
+
+  next(err);
+})
 
 // rutas
 app.get('/api', (req, res) => res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Hola, Mundo!' }));
