@@ -1,1 +1,7 @@
+# directorios
+.vscode
 node_modules
+
+# archivos
+*.env
+!default.env
