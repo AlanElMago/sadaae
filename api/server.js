@@ -14,7 +14,7 @@ app.use(validateJwt);
 
 // rutas
 app.get('/api', (req, res) => res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Hola, Mundo!' }));
-app.use('/api/test/auth', requireAuth, authTestRouts);
+app.use('/api/test/auth', requireAuth(), authTestRouts);
 
 // iniciar el servidor
 app.listen(config.API_PORT, () => console.log(`Servidor escuchando en el puerto ${config.API_PORT}`));
