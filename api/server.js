@@ -17,4 +17,4 @@ app.get('/api', (req, res) => res.status(http.constants.HTTP_STATUS_OK).json({ m
 app.use('/api/test/auth', requireAuth, authTestRouts);
 
 // iniciar el servidor
-app.listen(config.API_PORT);
+app.listen(config.API_PORT, () => console.log(`Servidor escuchando en el puerto ${config.API_PORT}`));
