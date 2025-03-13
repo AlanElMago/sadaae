@@ -5,4 +5,24 @@ const protect = (req, res) => {
   return res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Ruta protegida' });
 };
 
-export default { protect };
+const customer = (req, res) => {
+  console.log('Ruta de cliente');
+  return res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Ruta de cliente' });
+}
+
+const camera = (req, res) => {
+  console.log('Ruta de cámara');
+  return res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Ruta de cámara' });
+}
+
+const operator = (req, res) => {
+  console.log('Ruta de operador');
+  return res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Ruta de operador' });
+}
+
+const admin = (req, res) => {
+  console.log('Ruta de administrador');
+  return res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Ruta de administrador' });
+}
+
+export default { protect, customer, camera, operator, admin };
