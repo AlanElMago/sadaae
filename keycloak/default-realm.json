@@ -47,6 +47,22 @@
   "failureFactor" : 30,
   "roles" : {
     "realm" : [ {
+      "id" : "6475b0b9-3bb8-4e59-a149-0d129820ae77",
+      "name" : "admin",
+      "description" : "Rol de administrador para SADAAE",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "f380d00d-195c-43d2-b462-886c0a9577c0",
+      "attributes" : { }
+    }, {
+      "id" : "75f90dfa-2eea-47c9-b2ca-3606d10523df",
+      "name" : "operator",
+      "description" : "Rol de operador para SADAAE",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "f380d00d-195c-43d2-b462-886c0a9577c0",
+      "attributes" : { }
+    }, {
       "id" : "e66f1809-8226-4ed7-be17-beebe61ae8a9",
       "name" : "uma_authorization",
       "description" : "${role_uma_authorization}",
@@ -69,9 +85,25 @@
       "containerId" : "f380d00d-195c-43d2-b462-886c0a9577c0",
       "attributes" : { }
     }, {
+      "id" : "799472b2-8937-4740-8cec-2acc381adf10",
+      "name" : "camera",
+      "description" : "Rol de cámara para SADAAE",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "f380d00d-195c-43d2-b462-886c0a9577c0",
+      "attributes" : { }
+    }, {
       "id" : "0a14412c-8ca1-4977-aac0-58799dccf269",
       "name" : "offline_access",
       "description" : "${role_offline-access}",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "f380d00d-195c-43d2-b462-886c0a9577c0",
+      "attributes" : { }
+    }, {
+      "id" : "3d49571c-60ac-4ae3-97e4-2d64b3153739",
+      "name" : "customer",
+      "description" : "Rol de cliente para SADAAE",
       "composite" : false,
       "clientRole" : false,
       "containerId" : "f380d00d-195c-43d2-b462-886c0a9577c0",
@@ -85,7 +117,7 @@
         "composite" : true,
         "composites" : {
           "client" : {
-            "realm-management" : [ "view-users", "manage-events", "view-events", "create-client", "view-identity-providers", "view-clients", "manage-realm", "query-realms", "query-users", "impersonation", "manage-authorization", "manage-clients", "manage-identity-providers", "query-clients", "manage-users", "view-realm", "query-groups", "view-authorization" ]
+            "realm-management" : [ "view-users", "manage-events", "view-events", "create-client", "view-identity-providers", "manage-realm", "query-realms", "view-clients", "query-users", "manage-authorization", "impersonation", "manage-clients", "manage-identity-providers", "query-clients", "manage-users", "view-realm", "query-groups", "view-authorization" ]
           }
         },
         "clientRole" : true,
@@ -397,7 +429,7 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-sadaae" ],
+    "realmRoles" : [ "admin", "default-roles-sadaae" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -420,7 +452,21 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-sadaae" ],
+    "realmRoles" : [ "operator", "default-roles-sadaae" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "5b3ed074-faa6-4f9e-97a1-2d2b1069ef62",
+    "username" : "service-account-sadaae-api",
+    "emailVerified" : false,
+    "createdTimestamp" : 1741889136783,
+    "enabled" : true,
+    "totp" : false,
+    "serviceAccountClientId" : "sadaae-api",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-sadaae", "camera" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -443,7 +489,7 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-sadaae" ],
+    "realmRoles" : [ "default-roles-sadaae", "customer" ],
     "notBefore" : 0,
     "groups" : [ ]
   } ],
@@ -637,7 +683,7 @@
     "standardFlowEnabled" : true,
     "implicitFlowEnabled" : false,
     "directAccessGrantsEnabled" : true,
-    "serviceAccountsEnabled" : false,
+    "serviceAccountsEnabled" : true,
     "publicClient" : false,
     "frontchannelLogout" : true,
     "protocol" : "openid-connect",
@@ -687,9 +733,10 @@
       "config" : {
         "id.token.claim" : "false",
         "lightweight.claim" : "false",
-        "access.token.claim" : "true",
         "introspection.token.claim" : "true",
-        "included.custom.audience" : "http://localhost:3000/api"
+        "access.token.claim" : "true",
+        "included.custom.audience" : "http://localhost:3000/api",
+        "userinfo.token.claim" : "false"
       }
     }, {
       "id" : "a1c45457-a365-4d2b-8f05-2a4c0dcc3387",
@@ -706,7 +753,7 @@
         "multivalued" : "true"
       }
     } ],
-    "defaultClientScopes" : [ "web-origins", "acr", "profile", "basic", "email" ],
+    "defaultClientScopes" : [ "service_account", "web-origins", "acr", "profile", "basic", "email" ],
     "optionalClientScopes" : [ "address", "phone", "organization", "offline_access", "microprofile-jwt" ]
   }, {
     "id" : "08200060-c6ea-4e51-9ff5-94de78c3f8ae",
@@ -1168,28 +1215,6 @@
       "config" : { }
     } ]
   }, {
-    "id" : "75a084f2-6af5-4392-9eed-3e19bed91773",
-    "name" : "acr",
-    "description" : "OpenID Connect scope for add acr (authentication context class reference) to the token",
-    "protocol" : "openid-connect",
-    "attributes" : {
-      "include.in.token.scope" : "false",
-      "display.on.consent.screen" : "false"
-    },
-    "protocolMappers" : [ {
-      "id" : "6a8a2d0a-4c78-40ee-90f5-2fee61484d32",
-      "name" : "acr loa level",
-      "protocol" : "openid-connect",
-      "protocolMapper" : "oidc-acr-mapper",
-      "consentRequired" : false,
-      "config" : {
-        "id.token.claim" : "true",
-        "introspection.token.claim" : "true",
-        "access.token.claim" : "true",
-        "userinfo.token.claim" : "true"
-      }
-    } ]
-  }, {
     "id" : "9a150425-1d8b-442d-a6d2-cac19fd3e112",
     "name" : "organization",
     "description" : "Additional claims about the organization a subject belongs to",
@@ -1213,6 +1238,28 @@
         "access.token.claim" : "true",
         "claim.name" : "organization",
         "jsonType.label" : "String"
+      }
+    } ]
+  }, {
+    "id" : "75a084f2-6af5-4392-9eed-3e19bed91773",
+    "name" : "acr",
+    "description" : "OpenID Connect scope for add acr (authentication context class reference) to the token",
+    "protocol" : "openid-connect",
+    "attributes" : {
+      "include.in.token.scope" : "false",
+      "display.on.consent.screen" : "false"
+    },
+    "protocolMappers" : [ {
+      "id" : "6a8a2d0a-4c78-40ee-90f5-2fee61484d32",
+      "name" : "acr loa level",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-acr-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "id.token.claim" : "true",
+        "introspection.token.claim" : "true",
+        "access.token.claim" : "true",
+        "userinfo.token.claim" : "true"
       }
     } ]
   }, {
@@ -1436,7 +1483,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-address-mapper", "oidc-full-name-mapper", "oidc-usermodel-attribute-mapper", "oidc-usermodel-property-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "saml-user-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "oidc-address-mapper", "saml-user-property-mapper", "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "oidc-usermodel-property-mapper" ]
       }
     }, {
       "id" : "a9b8995d-c7c7-46fa-ad0e-b52b7d8dc855",
@@ -1445,7 +1492,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "oidc-usermodel-attribute-mapper", "saml-user-attribute-mapper", "oidc-address-mapper", "saml-user-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "oidc-usermodel-property-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "oidc-address-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper" ]
       }
     }, {
       "id" : "c0187572-93a6-4723-bde9-6fa5e2f36f78",
