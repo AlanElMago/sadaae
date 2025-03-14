@@ -36,6 +36,24 @@ services:
     depends_on:
       - postgres
 
+  ### Servicio de MongoDB ###
+  mongo:
+    container_name: sadaae-mongo
+    image: mongodb/mongodb-community-server:7.0.16-ubuntu2204
+    command: --wiredTigerCacheSizeGB 1.0
+    env_file:
+      - path: mongo/default.env
+        required: true
+      - path: mongo/override.env
+        required: false
+    ports:
+      - ${MONGO_PORT:-27017}:${MONGO_PORT:-27017}
+    networks:
+      - local_network
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config_data:/data/configdb
+
   ### Servicio del RESTful API ###
   api:
     container_name: sadaae-api
@@ -66,4 +84,8 @@ networks:
 
 volumes:
   postgres_data:
+    driver: local
+  mongo_data:
+    driver: local
+  mongo_config_data:
     driver: local
