@@ -25,4 +25,4 @@ const admin = (req, res) => {
   return res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Ruta de administrador' });
 }
 
-export default { protect, customer, camera, operator, admin };
+export default { protected: protect, customer, camera, operator, admin };
