@@ -117,7 +117,7 @@
         "composite" : true,
         "composites" : {
           "client" : {
-            "realm-management" : [ "view-users", "manage-events", "view-events", "create-client", "view-identity-providers", "manage-realm", "query-realms", "view-clients", "query-users", "manage-authorization", "impersonation", "manage-clients", "manage-identity-providers", "query-clients", "manage-users", "view-realm", "query-groups", "view-authorization" ]
+            "realm-management" : [ "view-users", "manage-events", "view-events", "create-client", "view-identity-providers", "manage-realm", "query-realms", "view-clients", "query-users", "impersonation", "manage-authorization", "manage-clients", "manage-identity-providers", "query-clients", "manage-users", "view-realm", "query-groups", "view-authorization" ]
           }
         },
         "clientRole" : true,
@@ -278,7 +278,14 @@
         "containerId" : "a0c67139-96d8-4b90-9c5b-8de2a96285d6",
         "attributes" : { }
       } ],
-      "sadaae-api" : [ ],
+      "sadaae-api" : [ {
+        "id" : "3c6e2395-e07c-4bdf-8bff-b025489f830d",
+        "name" : "uma_protection",
+        "composite" : false,
+        "clientRole" : true,
+        "containerId" : "92443320-e639-457f-9d36-04d29b10263a",
+        "attributes" : { }
+      } ],
       "security-admin-console" : [ ],
       "admin-cli" : [ ],
       "account-console" : [ ],
@@ -467,6 +474,9 @@
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
     "realmRoles" : [ "default-roles-sadaae", "camera" ],
+    "clientRoles" : {
+      "sadaae-api" : [ "uma_protection" ]
+    },
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -667,7 +677,7 @@
     "clientId" : "sadaae-api",
     "name" : "SADAAE API",
     "description" : "RESTful API de Node.js para SADAAE",
-    "rootUrl" : "",
+    "rootUrl" : "http://localhost:3000/api",
     "adminUrl" : "",
     "baseUrl" : "",
     "surrogateAuthRequired" : false,
@@ -684,6 +694,7 @@
     "implicitFlowEnabled" : false,
     "directAccessGrantsEnabled" : true,
     "serviceAccountsEnabled" : true,
+    "authorizationServicesEnabled" : true,
     "publicClient" : false,
     "frontchannelLogout" : true,
     "protocol" : "openid-connect",
@@ -754,7 +765,155 @@
       }
     } ],
     "defaultClientScopes" : [ "service_account", "web-origins", "acr", "profile", "basic", "email" ],
-    "optionalClientScopes" : [ "address", "phone", "organization", "offline_access", "microprofile-jwt" ]
+    "optionalClientScopes" : [ "address", "phone", "organization", "offline_access", "microprofile-jwt" ],
+    "authorizationSettings" : {
+      "allowRemoteResourceManagement" : true,
+      "policyEnforcementMode" : "ENFORCING",
+      "resources" : [ {
+        "name" : "admin-auth-test",
+        "type" : "admin:test",
+        "ownerManagedAccess" : false,
+        "displayName" : "Administrator Authorization Test",
+        "attributes" : { },
+        "uris" : [ "/test/auth/admin" ],
+        "icon_uri" : ""
+      }, {
+        "name" : "operator-auth-test",
+        "type" : "operator:test",
+        "ownerManagedAccess" : false,
+        "displayName" : "Operator Authorization Test",
+        "attributes" : { },
+        "uris" : [ "/test/auth/operator" ],
+        "icon_uri" : ""
+      }, {
+        "name" : "camera-auth-test",
+        "type" : "camera:test",
+        "ownerManagedAccess" : false,
+        "displayName" : "Camera Authorization Test",
+        "attributes" : { },
+        "uris" : [ "/test/auth/camera" ],
+        "icon_uri" : ""
+      }, {
+        "name" : "customer-auth-test",
+        "type" : "customer:test",
+        "ownerManagedAccess" : false,
+        "displayName" : "Customer Authorization Test",
+        "attributes" : { },
+        "uris" : [ "/test/auth/customer" ],
+        "icon_uri" : ""
+      }, {
+        "name" : "auth-test",
+        "type" : "test",
+        "ownerManagedAccess" : false,
+        "displayName" : "Authorization Test",
+        "attributes" : { },
+        "uris" : [ "/test/auth/protect" ],
+        "icon_uri" : ""
+      } ],
+      "policies" : [ {
+        "name" : "Default Policy",
+        "description" : "A policy that grants access only for users within this realm",
+        "type" : "js",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "AFFIRMATIVE",
+        "config" : {
+          "code" : "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+        }
+      }, {
+        "name" : "Admins Test Policy",
+        "description" : "Política de prueba que define que solo los usuarios con rol de Administrador pueden acceder",
+        "type" : "role",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "fetchRoles" : "false",
+          "roles" : "[{\"id\":\"admin\",\"required\":true}]"
+        }
+      }, {
+        "name" : "Cameras or Admins Test Policy",
+        "description" : "Política de prueba que define que solo los usuarios con rol de Cámara o Administrador pueden acceder",
+        "type" : "role",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "fetchRoles" : "false",
+          "roles" : "[{\"id\":\"admin\",\"required\":false},{\"id\":\"camera\",\"required\":false}]"
+        }
+      }, {
+        "name" : "Customer or Admins Test Policy",
+        "description" : "Política de prueba que define que solo los usuarios con rol de Cliente o Administrador pueden acceder",
+        "type" : "role",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "fetchRoles" : "false",
+          "roles" : "[{\"id\":\"customer\",\"required\":false},{\"id\":\"admin\",\"required\":false}]"
+        }
+      }, {
+        "name" : "Operators or Admin Test Policy",
+        "description" : "Política de prueba que define que solo los usuarios con rol de Operador o Administrador pueden acceder",
+        "type" : "role",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "fetchRoles" : "false",
+          "roles" : "[{\"id\":\"admin\",\"required\":false},{\"id\":\"operator\",\"required\":false}]"
+        }
+      }, {
+        "name" : "Customer Test Permission",
+        "description" : "Permiso de prueba que aplica a usuarios con rol de Cliente",
+        "type" : "resource",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "resources" : "[\"customer-auth-test\"]",
+          "applyPolicies" : "[\"Customer or Admins Test Policy\"]"
+        }
+      }, {
+        "name" : "Camera Test Permission",
+        "description" : "Permiso de prueba que aplica a usuarios con rol de Cámara",
+        "type" : "resource",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "resources" : "[\"camera-auth-test\"]",
+          "applyPolicies" : "[\"Cameras or Admins Test Policy\"]"
+        }
+      }, {
+        "name" : "Admin Test Permission",
+        "description" : "Permiso de prueba que aplica a usuarios con rol de Administrador",
+        "type" : "resource",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "resources" : "[\"admin-auth-test\"]",
+          "applyPolicies" : "[\"Admins Test Policy\"]"
+        }
+      }, {
+        "name" : "Test Permission",
+        "description" : "Permiso de prueba que aplica a cualquier usuario",
+        "type" : "resource",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "defaultResourceType" : "",
+          "resources" : "[\"auth-test\"]",
+          "applyPolicies" : "[\"Default Policy\"]"
+        }
+      }, {
+        "name" : "Operator Test Permission",
+        "description" : "Permiso de prueba que aplica a usuarios con rol de Operador",
+        "type" : "resource",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "resources" : "[\"operator-auth-test\"]",
+          "applyPolicies" : "[\"Operators or Admin Test Policy\"]"
+        }
+      } ],
+      "scopes" : [ ],
+      "decisionStrategy" : "UNANIMOUS"
+    }
   }, {
     "id" : "08200060-c6ea-4e51-9ff5-94de78c3f8ae",
     "clientId" : "security-admin-console",
@@ -1483,7 +1642,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "oidc-address-mapper", "saml-user-property-mapper", "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "oidc-usermodel-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-full-name-mapper", "oidc-usermodel-property-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-attribute-mapper", "oidc-address-mapper", "saml-role-list-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper" ]
       }
     }, {
       "id" : "a9b8995d-c7c7-46fa-ad0e-b52b7d8dc855",
@@ -1492,7 +1651,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "oidc-usermodel-property-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "oidc-address-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-full-name-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper", "saml-role-list-mapper", "oidc-usermodel-property-mapper", "saml-user-attribute-mapper", "oidc-address-mapper" ]
       }
     }, {
       "id" : "c0187572-93a6-4723-bde9-6fa5e2f36f78",
