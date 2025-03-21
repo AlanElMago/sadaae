@@ -62,7 +62,7 @@ const requireAuth = (scope = "") => {
       return res.status(authResponse.status).json(authResponse.data);
     }
     catch (error) {
-      console.log(error);
+      console.error(error);
 
       return res.status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR).json({ message: error });
     }
