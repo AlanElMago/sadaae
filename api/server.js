@@ -1,10 +1,14 @@
 import express from 'express';
 import http from 'http2';
+import mongoose from 'mongoose';
 
 import config from './config/config.js';
+import mongooseConnectOptions from './config/mongooseConnectOptions.js';
 import requireAuth from './middleware/requireAuth.js';
 import validateJwt from './middleware/validateJwt.js';
 import authTestRoutes from './test/routes/authTest.routes.js';
+
+await mongoose.connect(config.MONGO_URI, mongooseConnectOptions);
 
 const app = express();
 
