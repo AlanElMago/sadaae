@@ -809,6 +809,23 @@
         "attributes" : { },
         "uris" : [ "/test/auth/protect" ],
         "icon_uri" : ""
+      }, {
+        "name" : "establishments",
+        "type" : "establishments",
+        "ownerManagedAccess" : false,
+        "displayName" : "Establishments",
+        "attributes" : { },
+        "uris" : [ "/v1/establishments/{id}", "/v1/establishments/by-user-id/{id}", "/v1/establishments", "/v1/establishments?{query_params}" ],
+        "scopes" : [ {
+          "name" : "read"
+        }, {
+          "name" : "update"
+        }, {
+          "name" : "delete"
+        }, {
+          "name" : "create"
+        } ],
+        "icon_uri" : ""
       } ],
       "policies" : [ {
         "name" : "Default Policy",
@@ -838,6 +855,26 @@
         "config" : {
           "fetchRoles" : "false",
           "roles" : "[{\"id\":\"admin\",\"required\":false},{\"id\":\"camera\",\"required\":false}]"
+        }
+      }, {
+        "name" : "Admins Policy",
+        "description" : "Define que solo los usuarios con rol de Administrador pueden acceder",
+        "type" : "role",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "fetchRoles" : "false",
+          "roles" : "[{\"id\":\"admin\",\"required\":true}]"
+        }
+      }, {
+        "name" : "Operators or Admins Policy",
+        "description" : "Define que solo los usuarios con rol de Operador o Administrador pueden acceder",
+        "type" : "role",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "fetchRoles" : "false",
+          "roles" : "[{\"id\":\"admin\",\"required\":false},{\"id\":\"operator\",\"required\":false}]"
         }
       }, {
         "name" : "Customer or Admins Test Policy",
@@ -910,8 +947,46 @@
           "resources" : "[\"operator-auth-test\"]",
           "applyPolicies" : "[\"Operators or Admin Test Policy\"]"
         }
+      }, {
+        "name" : "Admin Establishments Permission",
+        "description" : "Define lo que pueden hacer los usuarios con rol de Administrador a los recursos de establecimientos",
+        "type" : "scope",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "resources" : "[\"establishments\"]",
+          "scopes" : "[\"delete\",\"create\",\"update\"]",
+          "applyPolicies" : "[\"Admins Policy\"]"
+        }
+      }, {
+        "name" : "Operator or Admin Establishments Permission",
+        "description" : "Define lo que pueden hacer los usuarios con rol de Operador o Administrador a los recursos de establecimientos",
+        "type" : "scope",
+        "logic" : "POSITIVE",
+        "decisionStrategy" : "UNANIMOUS",
+        "config" : {
+          "resources" : "[\"establishments\"]",
+          "scopes" : "[\"read\"]",
+          "applyPolicies" : "[\"Operators or Admins Policy\"]"
+        }
       } ],
-      "scopes" : [ ],
+      "scopes" : [ {
+        "name" : "read",
+        "iconUri" : "",
+        "displayName" : "Read"
+      }, {
+        "name" : "create",
+        "iconUri" : "",
+        "displayName" : "Create"
+      }, {
+        "name" : "update",
+        "iconUri" : "",
+        "displayName" : "Update"
+      }, {
+        "name" : "delete",
+        "iconUri" : "",
+        "displayName" : "Delete"
+      } ],
       "decisionStrategy" : "UNANIMOUS"
     }
   }, {
