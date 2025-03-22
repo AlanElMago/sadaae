@@ -129,16 +129,24 @@ const deleteEstablishment = async (req, res) => {
 
     const establishment = await Establishment.findById(establishmentId).exec();
 
+    if (!establishment || establishment.deletedBy !== null) {
+      return res
+        .status(http.constants.HTTP_STATUS_NOT_FOUND)
+        .json({ message: 'No se encontró el establecimiento' });
+    }
+
     establishment.deletedBy = userId;
 
     await establishment.save();
 
-    return res.status(http.constants.HTTP_STATUS_NO_CONTENT)
+    return res.status(http.constants.HTTP_STATUS_NO_CONTENT).send();
   }
   catch (error) {
     console.error('Error al eliminar establecimiento', error);
 
-    return res.status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+    return res
+      .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error al eliminar establecimiento' });
   }
 }
 
