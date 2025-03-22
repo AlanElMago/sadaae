@@ -29,10 +29,22 @@ const getEstablishmentById = async (req, res) => {
 
     const establishment = await Establishment.findById(establishmentId).exec();
 
+    if (!establishment) {
+      return res
+        .status(http.constants.HTTP_STATUS_NOT_FOUND)
+        .json({ message: 'No se encontró el establecimiento' });
+    }
+
     return res.status(http.constants.HTTP_STATUS_OK).json(establishment);
   }
   catch (error) {
     console.error('Error al obtener establecimiento', error);
+
+    if (error.kind === 'ObjectId') {
+      return res
+        .status(http.constants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: 'ID de establecimiento inválido' });
+    }
 
     return res
       .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
@@ -100,6 +112,12 @@ const updateEstablishment = async (req, res) => {
 
     const establishment = await Establishment.findById(establishmentId).exec();
 
+    if (!establishment) {
+      return res
+        .status(http.constants.HTTP_STATUS_NOT_FOUND)
+        .json({ message: 'No se encontró el establecimiento' });
+    }
+
     Object.assign(establishment, { ...req.body, updatedBy: userId });
 
     const validationErrors = establishment.validateSync();
@@ -115,6 +133,12 @@ const updateEstablishment = async (req, res) => {
   }
   catch (error) {
     console.error('Error al actualizar establecimiento', error);
+
+    if (error.kind === 'ObjectId') {
+      return res
+        .status(http.constants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: 'ID de establecimiento inválido' });
+    }
 
     return res
       .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
@@ -143,6 +167,12 @@ const deleteEstablishment = async (req, res) => {
   }
   catch (error) {
     console.error('Error al eliminar establecimiento', error);
+
+    if (error.kind === 'ObjectId') {
+      return res
+        .status(http.constants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: 'ID de establecimiento inválido' });
+    }
 
     return res
       .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
