@@ -75,7 +75,7 @@ class KeycloakClient {
 }
 
 /**
- * @typedef UmaResourceOptions Opciones para crear un recurso UMA
+ * @typedef {Object} UmaResourceOptions Opciones para crear un recurso UMA
  * @property {string} displayName - Nombre amigable del recurso
  * @property {string} type - Tipo del recurso
  * @property {string} owner - ID o correo del propietario del recurso
@@ -122,7 +122,7 @@ const createUmaResource = async (name, options) => {
 };
 
 /**
- * @typedef ResourcePermissionOptions Opciones para crear un permiso para un recurso
+ * @typedef {Object} ResourcePermissionOptions Opciones para crear un permiso para un recurso
  * @property {string} description - Descripción del permiso
  * @property {string[]} scopes - Alcances del permiso (e.j. `create`, `read`, `update`, `delete`)
  * @property {string[]} users - Usuarios a los que se les otorga el permiso
@@ -169,10 +169,10 @@ const createResourcePermission = async (name, resourceId, ownerBearerToken, opti
 
 /**
  * Conecta el cliente de Keycloak a una instancia de Keycloak
- * @param {*} baseUrl - URL base de Keycloak
- * @param {*} clientId - ID del cliente
- * @param {*} clientSecret - Secreto del cliente
- * @param {*} callback - Función a llamar después de conectar el cliente
+ * @param {string} baseUrl - URL base de Keycloak
+ * @param {string} clientId - ID del cliente
+ * @param {string} clientSecret - Secreto del cliente
+ * @param {Function} callback - Función a llamar después de conectar el cliente
  */
 const connect = async (baseUrl, clientId, clientSecret, callback = () => {}) => {
   const keycloakClient = new KeycloakClient(baseUrl, clientId, clientSecret);
