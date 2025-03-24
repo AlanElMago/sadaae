@@ -25,12 +25,12 @@ import config from '../config/config.js';
  *   res.status(200).json({ message: 'Recurso protegido' });
  * })
  */
-const requireAuth = (scope = "") => {
+const requireAuth = (scope = '') => {
   return async (req, res, next) => {
     if (!req.auth) {
       return res
         .status(http.constants.HTTP_STATUS_UNAUTHORIZED)
-        .json({ message: "No se encontró el token de acceso" });
+        .json({ message: 'No se encontró el token de acceso' });
     }
 
     const formData = new FormData();
@@ -64,7 +64,9 @@ const requireAuth = (scope = "") => {
     catch (error) {
       console.error(error);
 
-      return res.status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR).json({ message: error });
+      return res
+        .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+        .json({ message: 'Error al acceder al recurso' });
     }
   }
 };
