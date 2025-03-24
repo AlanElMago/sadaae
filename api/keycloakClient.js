@@ -43,6 +43,8 @@ class KeycloakClient {
     }
     catch (error) {
       console.error('Error al inicializar el cliente de Keycloak', error);
+
+      throw error;
     }
   };
 
