@@ -2,6 +2,10 @@ const config = {
   API_PORT: process.env.API_PORT || 3000,
   API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:3000/api',
 
+  KC_REALM_URL: process.env.KC_REALM_URL || 'http://localhost:8080/realms/sadaae',
+  KC_CLIENT_ID: process.env.KC_CLIENT_ID || 'sadaae-api',
+  KC_CLIENT_SECRET: process.env.KC_CLIENT_SECRET || 'my-client-secret',
+
   OIDC_AUDIENCE: process.env.OIDC_AUDIENCE || 'http://localhost:3000/api',
   OIDC_ISSUER: process.env.OIDC_ISSUER || 'http://localhost:8080/realms/sadaae',
   OIDC_JWKS_URI: process.env.OIDC_JWKS_URI || 'http://localhost:8080/realms/sadaae/protocol/openid-connect/certs',
