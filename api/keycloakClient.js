@@ -85,7 +85,7 @@ class KeycloakClient {
  */
 
 /**
- * Crea un recurso UMA dentro de una estancia de Keycloak
+ * Crea un recurso UMA dentro de una instancia de Keycloak
  * @param {string} name - Nombre del recurso
  * @param {UmaResourceOptions} options - Opciones adicionales para crear el recurso
  * @returns {Promise<import('axios').AxiosResponse>} Promesa con el resultado de la operación
