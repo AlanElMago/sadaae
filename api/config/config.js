@@ -1,5 +1,6 @@
 const config = {
   API_PORT: process.env.API_PORT || 3000,
+  API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:3000/api',
 
   OIDC_AUDIENCE: process.env.OIDC_AUDIENCE || 'http://localhost:3000/api',
   OIDC_ISSUER: process.env.OIDC_ISSUER || 'http://localhost:8080/realms/sadaae',
