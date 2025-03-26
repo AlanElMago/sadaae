@@ -173,6 +173,12 @@ const updateCamera = async (req, res) => {
   catch (error) {
     console.log('Error al actualizar cámara', error);
 
+    if (error.kind === 'ObjectId') {
+      return res
+        .status(http.constants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: 'ID de establecimiento inválido' });
+    }
+
     return res
       .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
       .json({ message: 'Error al actualizar cámara' });
