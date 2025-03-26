@@ -75,7 +75,7 @@ const createEstablishment = async (req, res) => {
     await keycloakService.registerEstablishment(req.originalUrl, establishment.id, ownerId, req.headers.authorization);
 
     return res
-      .status(http.constants.HTTP_STATUS_OK)
+      .status(http.constants.HTTP_STATUS_CREATED)
       .json({ message: 'Establecimiento creado existosamente', data: establishment });
   }
   catch (error) {
