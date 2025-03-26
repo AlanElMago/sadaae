@@ -159,12 +159,12 @@ const updateCamera = async (req, res) => {
     camera.enabled = req.body.enabled || camera.enabled;
     camera.updatedBy = userId;
 
-    await camera.save();
-
     const validationErrors = camera.validateSync();
     if (validationErrors) {
       return res.status(http.constants.HTTP_STATUS_BAD_REQUEST).json({ message: validationErrors });
     }
+
+    await camera.save();
 
     return res
       .status(http.constants.HTTP_STATUS_OK)
