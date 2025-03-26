@@ -199,6 +199,32 @@
         }
       ],
       "icon_uri": ""
+    },
+    {
+      "name": "Cameras",
+      "type": "http://localhost:3000/api/v1/cameras",
+      "ownerManagedAccess": false,
+      "displayName": "Cameras",
+      "attributes": {},
+      "uris": [
+        "/v1/cameras/by-user-id/{id}",
+        "/v1/cameras?{query_params}",
+        "/v1/cameras/{id}",
+        "/v1/cameras",
+        "/v1/cameras/by-establishment-id/{id}"
+      ],
+      "scopes": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "update"
+        },
+        {
+          "name": "create"
+        }
+      ],
+      "icon_uri": ""
     }
   ],
   "policies": [
