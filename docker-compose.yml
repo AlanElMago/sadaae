@@ -57,7 +57,7 @@ services:
   ### Servicio del RESTful API ###
   api:
     container_name: sadaae-api
-    image: alanelmago/sadaee-api:0.6.0
+    image: alanelmago/sadaee-api:0.7.0
     build:
       context: api
       target: ${TARGET:-debug}
