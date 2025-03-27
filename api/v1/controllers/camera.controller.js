@@ -92,7 +92,7 @@ const getCamerasByEstablishmentId = async (req, res) => {
     if (error.kind === 'ObjectId') {
       return res
         .status(http.constants.HTTP_STATUS_BAD_REQUEST)
-        .json({ message: 'ID de establecimiento inválido' });
+        .json({ message: 'ID de cámara inválido' });
     }
 
     return res
@@ -176,7 +176,7 @@ const updateCamera = async (req, res) => {
     if (error.kind === 'ObjectId') {
       return res
         .status(http.constants.HTTP_STATUS_BAD_REQUEST)
-        .json({ message: 'ID de establecimiento inválido' });
+        .json({ message: 'ID de cámara inválido' });
     }
 
     return res
