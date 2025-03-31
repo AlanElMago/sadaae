@@ -135,6 +135,12 @@ const createCamera = async (req, res) => {
   catch (error) {
     console.log('Error al crear cámara', error);
 
+    if (error.code === 11000) {
+      return res
+        .status(http.constants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: 'El número serial ya se encuentra registrado' });
+    }
+
     return res
       .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
       .json({ message: 'Error al crear cámara' });
@@ -155,6 +161,7 @@ const updateCamera = async (req, res) => {
     }
 
     camera.name = req.body.name || camera.name;
+    camera.model = req.body.model || camera.model;
     camera.description = req.body.description || camera.description;
     camera.enabled = req.body.enabled || camera.enabled;
     camera.updatedBy = userId;
