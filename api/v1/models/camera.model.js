@@ -26,6 +26,7 @@ const cameraSchema = new mongoose.Schema({
   },
   serialNumber: {
     type: String,
+    unique: true,
     required: true,
   },
   model: {
