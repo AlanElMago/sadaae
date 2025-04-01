@@ -225,6 +225,74 @@
         }
       ],
       "icon_uri": ""
+    },
+    {
+      "name": "camera-67eaddc7ef192b8f5508fced",
+      "type": "http://localhost:3000/api/v1/customer/3c9fc301-0c9f-4ac3-935b-e4f597048c99/cameras",
+      "owner": {
+        "name": "edna.krabappel@example.com"
+      },
+      "ownerManagedAccess": true,
+      "displayName": "camera-67eaddc7ef192b8f5508fced",
+      "attributes": {},
+      "uris": [
+        "/v1/customer/3c9fc301-0c9f-4ac3-935b-e4f597048c99/cameras/67eaddc7ef192b8f5508fced/assign-establishment",
+        "/v1/customer/3c9fc301-0c9f-4ac3-935b-e4f597048c99/cameras/67eaddc7ef192b8f5508fced"
+      ],
+      "scopes": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "update"
+        }
+      ]
+    },
+    {
+      "name": "camera-67eae1bd044cb5d1ca8a6c48",
+      "type": "http://localhost:3000/api/v1/customer/1ccdb038-fa0f-4b5d-93ed-8083784cb528/cameras",
+      "owner": {
+        "name": "apu.naha@example.com"
+      },
+      "ownerManagedAccess": false,
+      "displayName": "camera-67eae1bd044cb5d1ca8a6c48",
+      "attributes": {},
+      "uris": [
+        "/v1/customer/1ccdb038-fa0f-4b5d-93ed-8083784cb528/cameras/67eae1bd044cb5d1ca8a6c48",
+        "/v1/customer/1ccdb038-fa0f-4b5d-93ed-8083784cb528/cameras/67eae1bd044cb5d1ca8a6c48/assign-establishment"
+      ],
+      "scopes": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "update"
+        }
+      ],
+      "icon_uri": ""
+    },
+    {
+      "name": "camera-67eae215044cb5d1ca8a6c4c",
+      "type": "http://localhost:3000/api/v1/customer/1ccdb038-fa0f-4b5d-93ed-8083784cb528/cameras",
+      "owner": {
+        "name": "apu.naha@example.com"
+      },
+      "ownerManagedAccess": false,
+      "displayName": "camera-67eae215044cb5d1ca8a6c4c",
+      "attributes": {},
+      "uris": [
+        "/v1/customer/1ccdb038-fa0f-4b5d-93ed-8083784cb528/cameras/67eae215044cb5d1ca8a6c4c",
+        "/v1/customer/1ccdb038-fa0f-4b5d-93ed-8083784cb528/cameras/67eae215044cb5d1ca8a6c4c/assign-establishment"
+      ],
+      "scopes": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "update"
+        }
+      ],
+      "icon_uri": ""
     }
   ],
   "policies": [
@@ -415,9 +483,80 @@
         "resources": "[\"customer-resources-3c9fc301-0c9f-4ac3-935b-e4f597048c99\"]",
         "applyPolicies": "[\"customer-policy-3c9fc301-0c9f-4ac3-935b-e4f597048c99\"]"
       }
+    },
+    {
+      "name": "establishment-permission-67e0ae35f7ed4cc620dbd8d3",
+      "description": "Permiso que aplica al cliente 3c9fc301-0c9f-4ac3-935b-e4f597048c99 para acceder al establecimiento 67e0ae35f7ed4cc620dbd8d3",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "scopes": "[\"delete\",\"read\",\"update\"]",
+        "applyPolicies": "[\"customer-policy-3c9fc301-0c9f-4ac3-935b-e4f597048c99\"]"
+      }
+    },
+    {
+      "name": "establishment-permission-67e0b0f0bb28fc7e92148a82",
+      "description": "Permiso que aplica al cliente 1ccdb038-fa0f-4b5d-93ed-8083784cb528 para acceder al establecimiento 67e0b0f0bb28fc7e92148a82",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "scopes": "[\"delete\",\"read\",\"update\"]",
+        "applyPolicies": "[\"customer-policy-1ccdb038-fa0f-4b5d-93ed-8083784cb528\"]"
+      }
+    },
+    {
+      "name": "establishment-permission-67e0b2425380ce42b251ef6b",
+      "description": "Permiso que aplica al cliente 1ccdb038-fa0f-4b5d-93ed-8083784cb528 para acceder al establecimiento 67e0b2425380ce42b251ef6b",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "scopes": "[\"delete\",\"read\",\"update\"]",
+        "applyPolicies": "[\"customer-policy-1ccdb038-fa0f-4b5d-93ed-8083784cb528\"]"
+      }
+    },
+    {
+      "name": "camera-permission-67eaddc7ef192b8f5508fced",
+      "description": "Permiso que aplica al cliente 3c9fc301-0c9f-4ac3-935b-e4f597048c99 para acceder a la cámara 67eaddc7ef192b8f5508fced",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "scopes": "[\"update\",\"read\"]",
+        "applyPolicies": "[\"customer-policy-3c9fc301-0c9f-4ac3-935b-e4f597048c99\"]"
+      }
+    },
+    {
+      "name": "camera-permission-67eae1bd044cb5d1ca8a6c48",
+      "description": "Permiso que aplica al cliente 1ccdb038-fa0f-4b5d-93ed-8083784cb528 para acceder a la cámara 67eae1bd044cb5d1ca8a6c48",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "scopes": "[\"update\",\"read\"]",
+        "applyPolicies": "[\"customer-policy-1ccdb038-fa0f-4b5d-93ed-8083784cb528\"]"
+      }
+    },
+    {
+      "name": "camera-permission-67eae215044cb5d1ca8a6c4c",
+      "description": "Permiso que aplica al cliente 1ccdb038-fa0f-4b5d-93ed-8083784cb528 para acceder a la cámara 67eae215044cb5d1ca8a6c4c",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "scopes": "[\"update\",\"read\"]",
+        "applyPolicies": "[\"customer-policy-1ccdb038-fa0f-4b5d-93ed-8083784cb528\"]"
+      }
     }
   ],
   "scopes": [
+    {
+      "name": "activate",
+      "iconUri": "",
+      "displayName": "Activate"
+    },
     {
       "name": "read",
       "iconUri": "",
