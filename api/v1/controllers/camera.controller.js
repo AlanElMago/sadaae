@@ -192,6 +192,29 @@ const updateCamera = async (req, res) => {
   }
 };
 
+const whoami = async (req, res) => {
+  try {
+    const cameraId = req.headers['camera-id'];
+
+    const camera = await Camera.findById(cameraId).exec();
+
+    if (!camera) {
+      return res
+        .status(http.constants.HTTP_STATUS_NOT_FOUND)
+        .json({ message: 'No se encontró la cámara' });
+    }
+
+    return res.status(http.constants.HTTP_STATUS_OK).json(camera);
+  }
+  catch (error) {
+    console.log('Error al obtener información de la cámara', error);
+
+    return res
+      .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error al obtener información de la cámara' });
+  }
+};
+
 export default {
   get: getCameras,
   getById: getCameraById,
@@ -199,4 +222,5 @@ export default {
   getByEstablishmentId: getCamerasByEstablishmentId,
   create: createCamera,
   update: updateCamera,
+  whoami: whoami,
 };
