@@ -93,7 +93,7 @@ const createEstablishment = async (req, res) => {
     await establishment.save();
 
     return res
-      .status(http.constants.HTTP_STATUS_OK)
+      .status(http.constants.HTTP_STATUS_CREATED)
       .json({ message: 'Establecimiento creado existosamente', data: establishment });
   }
   catch (error) {

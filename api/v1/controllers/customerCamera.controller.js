@@ -85,7 +85,7 @@ const activateCamera = async (req, res) => {
       .json({ message: 'Cámara activada exitosamente', data: camera });
   }
   catch (error) {
-    console.log('Error al activar cámara', error);
+    console.error('Error al activar cámara', error);
 
     if (error.kind === 'ObjectId') {
       return res
@@ -129,7 +129,7 @@ const updateCamera = async (req, res) => {
       .json({ message: 'Cámara actualizada exitosamente', data: camera });
   }
   catch (error) {
-    console.log('Error al actualizar cámara', error);
+    console.error('Error al actualizar cámara', error);
 
     if (error.kind === 'ObjectId') {
       return res
@@ -181,7 +181,7 @@ const assignCameraToEstablishment = async (req, res) => {
       .json({ message: 'Cámara asignada exitosamente', data: camera });
   }
   catch (error) {
-    console.log('Error al asignar cámara a establecimiento', error);
+    console.error('Error al asignar cámara a establecimiento', error);
 
     if (error.kind === 'ObjectId') {
       return res

@@ -14,7 +14,7 @@ const getCameras = async (req, res) => {
     return res.status(http.constants.HTTP_STATUS_OK).json(cameras);
   }
   catch (error) {
-    console.log('Error al obtener cámaras', error);
+    console.error('Error al obtener cámaras', error);
 
     return res
       .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
@@ -37,7 +37,7 @@ const getCameraById = async (req, res) => {
     return res.status(http.constants.HTTP_STATUS_OK).json(camera);
   }
   catch (error) {
-    console.log('Error al obtener cámara', error);
+    console.error('Error al obtener cámara', error);
 
     if (error.kind === 'ObjectId') {
       return res
@@ -62,7 +62,7 @@ const getCamerasByUserId = async (req, res) => {
     return res.status(http.constants.HTTP_STATUS_OK).json(cameras);
   }
   catch (error) {
-    console.log('Error al obtener cámaras', error);
+    console.error('Error al obtener cámaras', error);
 
     if (error.kind === 'ObjectId') {
       return res
@@ -87,7 +87,7 @@ const getCamerasByEstablishmentId = async (req, res) => {
     return res.status(http.constants.HTTP_STATUS_OK).json(cameras);
   }
   catch (error) {
-    console.log('Error al obtener cámaras', error);
+    console.error('Error al obtener cámaras', error);
 
     if (error.kind === 'ObjectId') {
       return res
@@ -133,7 +133,7 @@ const createCamera = async (req, res) => {
     });
   }
   catch (error) {
-    console.log('Error al crear cámara', error);
+    console.error('Error al crear cámara', error);
 
     if (error.code === 11000) {
       return res
@@ -178,7 +178,7 @@ const updateCamera = async (req, res) => {
       .json({ message: 'Cámara actualizada exitosamente', data: camera });
   }
   catch (error) {
-    console.log('Error al actualizar cámara', error);
+    console.error('Error al actualizar cámara', error);
 
     if (error.kind === 'ObjectId') {
       return res
@@ -207,7 +207,7 @@ const whoami = async (req, res) => {
     return res.status(http.constants.HTTP_STATUS_OK).json(camera);
   }
   catch (error) {
-    console.log('Error al obtener información de la cámara', error);
+    console.error('Error al obtener información de la cámara', error);
 
     return res
       .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
