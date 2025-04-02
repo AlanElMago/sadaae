@@ -293,6 +293,26 @@
         }
       ],
       "icon_uri": ""
+    },
+    {
+      "name": "file-test",
+      "type": "http://localhost:3000/v1/api/test/file",
+      "ownerManagedAccess": false,
+      "displayName": "File Test",
+      "attributes": {},
+      "uris": [
+        "/test/file/download-image/{fid}",
+        "/test/file/upload-image"
+      ],
+      "scopes": [
+        {
+          "name": "read"
+        },
+        {
+          "name": "upload"
+        }
+      ],
+      "icon_uri": ""
     }
   ],
   "policies": [
@@ -549,6 +569,17 @@
         "scopes": "[\"update\",\"read\"]",
         "applyPolicies": "[\"customer-policy-1ccdb038-fa0f-4b5d-93ed-8083784cb528\"]"
       }
+    },
+    {
+      "name": "File Test Permission",
+      "description": "Permiso de prueba que aplica a usuarios con rol de Administrador para acceder a los recursos de archivos",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "resources": "[\"file-test\"]",
+        "applyPolicies": "[\"Admins Test Policy\"]"
+      }
     }
   ],
   "scopes": [
@@ -576,6 +607,11 @@
       "name": "delete",
       "iconUri": "",
       "displayName": "Delete"
+    },
+    {
+      "name": "upload",
+      "iconUri": "",
+      "displayName": "Upload"
     }
   ],
   "decisionStrategy": "UNANIMOUS"
