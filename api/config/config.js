@@ -15,6 +15,9 @@ const config = {
   MONGO_USER: process.env.MONGO_USER || 'mongo',
   MONGO_PASS: process.env.MONGO_PASS || 'mongo12345',
   MONGO_DB: process.env.MONGO_DB || 'sadaae',
+
+  SEAWEEDFS_MASTER_URL: process.env.SEAWEEDFS_MASTER_URL || 'http://localhost:8081',
+  SEAWEEDFS_VOLUME_URL: process.env.SEAWEEDFS_VOLUME_URL || 'http://localhost:8082',
 };
 
 export default config;
