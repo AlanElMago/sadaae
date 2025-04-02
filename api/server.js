@@ -12,6 +12,7 @@ import fileTestRoutes from './test/routes/fileTest.routes.js';
 import cameraRoutes from './v1/routes/camera.routes.js';
 import customerRoutes from './v1/routes/customer.routes.js';
 import establishmentRoutes from './v1/routes/establishment.routes.js';
+import reportRoutes from './v1/routes/report.routes.js';
 
 await mongoose.connect(config.MONGO_URI, mongooseConnectOptions);
 await keycloakClient.connect(config.KC_REALM_URL, config.KC_CLIENT_ID, config.KC_CLIENT_SECRET, () => {
@@ -29,6 +30,7 @@ app.get('/api', (req, res) => res.status(http.constants.HTTP_STATUS_OK).json({ m
 app.use('/api/v1/establishments', establishmentRoutes);
 app.use('/api/v1/cameras', cameraRoutes);
 app.use('/api/v1/customer', customerRoutes);
+app.use('/api/v1/reports', reportRoutes);
 
 app.use('/api/test/auth', requireAuth(), authTestRoutes);
 app.use('/api/test/file', fileTestRoutes)
