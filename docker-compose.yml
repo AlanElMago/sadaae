@@ -54,6 +54,40 @@ services:
       - mongo_data:/data/db
       - mongo_config_data:/data/configdb
 
+  ### Servicio de SeaweedFS Master ###
+  seaweedfs_master:
+    container_name: sadaae-seaweedfs-master
+    image: chrislusf/seaweedfs:3.85
+    command:
+      - "master"
+      - "-port=${SEAWEEDFS_MASTER_PORT:-8081}"
+      - "-volumeSizeLimitMB=4000"
+    ports:
+      - ${SEAWEEDFS_MASTER_PORT:-8081}:${SEAWEEDFS_MASTER_PORT:-8081}
+    networks:
+      - local_network
+    volumes:
+      - seaweedfs_master_data:/data
+
+  ### Servicio de Seaweed Volume ###
+  seaweedfs_volume:
+    container_name: sadaae-seaweedfs-volume
+    image: chrislusf/seaweedfs:3.85
+    command:
+      - "volume"
+      - "-mserver=seaweedfs_master:${SEAWEEDFS_MASTER_PORT:-8081}"
+      - "-dir=/data"
+      - "-port=${SEAWEEDFS_VOLUME_PORT:-8082}"
+      - "-max=4"
+    ports:
+      - ${SEAWEEDFS_VOLUME_PORT:-8082}:${SEAWEEDFS_VOLUME_PORT:-8082}
+    networks:
+      - local_network
+    volumes:
+      - seaweedfs_volume_data:/data
+    depends_on:
+      - seaweedfs_master
+
   ### Servicio del RESTful API ###
   api:
     container_name: sadaae-api
@@ -88,4 +122,8 @@ volumes:
   mongo_data:
     driver: local
   mongo_config_data:
+    driver: local
+  seaweedfs_master_data:
+    driver: local
+  seaweedfs_volume_data:
     driver: local
