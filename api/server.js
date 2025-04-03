@@ -9,6 +9,7 @@ import requireAuth from './middleware/requireAuth.js';
 import validateJwt from './middleware/validateJwt.js';
 import authTestRoutes from './test/routes/authTest.routes.js';
 import fileTestRoutes from './test/routes/fileTest.routes.js';
+import geminiTestRoutes from './test/routes/geminiTest.routes.js';
 import cameraRoutes from './v1/routes/camera.routes.js';
 import customerRoutes from './v1/routes/customer.routes.js';
 import establishmentRoutes from './v1/routes/establishment.routes.js';
@@ -33,7 +34,8 @@ app.use('/api/v1/customer', customerRoutes);
 app.use('/api/v1/reports', reportRoutes);
 
 app.use('/api/test/auth', requireAuth(), authTestRoutes);
-app.use('/api/test/file', fileTestRoutes)
+app.use('/api/test/file', fileTestRoutes);
+app.use('/api/test/gemini', geminiTestRoutes);
 
 // iniciar el servidor
 app.listen(config.API_PORT, () => console.log(`Servidor escuchando en el puerto ${config.API_PORT}`));
