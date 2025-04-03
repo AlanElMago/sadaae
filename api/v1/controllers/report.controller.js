@@ -1,9 +1,11 @@
 import http from 'http2';
 
+import config from '../../config/config.js';
 import { Camera } from '../models/camera.model.js';
 import { Establishment } from '../models/establishment.model.js';
 import { Report } from '../models/report.model.js';
 import seaweedfsService from '../services/seaweedfs.service.js';
+import geminiService from '../services/gemini.service.js';
 
 const submitReport = async (req, res) => {
   try {
@@ -17,10 +19,15 @@ const submitReport = async (req, res) => {
     const camera = await Camera.findById(cameraId).select({ userId: 1, establishmentId: 1 }).exec();
     const establishment = await Establishment.findById(camera.establishmentId).select({ name: 1, address: 1 }).exec();
 
+    const aiDescription = config.GEMINI_API_KEY
+      ? 'Descripción de IA aún no disponible.'
+      : 'Descripción de IA no disponible por falta de configuración.';
+
     const report = new Report({
       establishmentName: establishment.name,
       establishmentAddress: establishment.address,
       establishmentId: camera.establishmentId,
+      aiDescription: aiDescription,
       latitude: latitude,
       longitude: longitude,
       photoBurst: { cameraId: cameraId, photos: [{ fid: photoFid }] },
@@ -36,6 +43,10 @@ const submitReport = async (req, res) => {
     }
 
     await report.save();
+
+    if (config.GEMINI_API_KEY) {
+      geminiService.appendAiDescriptionToReport(report, req.file);
+    }
 
     return res
       .status(http.constants.HTTP_STATUS_CREATED)

@@ -1,8 +1,33 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
+
 import config from '../../config/config.js';
 
 const genAI = new GoogleGenerativeAI(config.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: config.GEMINI_MODEL });
+const model = genAI.getGenerativeModel({
+  model: config.GEMINI_MODEL,
+  safetySettings: [
+    {
+      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_CIVIC_INTEGRITY,
+      threshold: HarmBlockThreshold.BLOCK_NONE,
+    },
+  ],
+});
 
 /**
  * Convierte un archivo a un formato compatible con Gemini.
@@ -30,4 +55,39 @@ const describeImage = async (imageFile) => {
   return await model.generateContent([prompt, ...imageParts]);
 }
 
-export default { describeImage };
+/**
+ * Agrega una descripción generada por IA a un reporte a partir de una imagen.
+ * @param {import('mongoose').Document} report - Reporte al que se le agregará la descripción.
+ * @param {*} imageFile - Imagen a analizar (generado por Multer).
+ * @returns {Promise<import('mongoose').Document>} Reporte actualizado.
+ */
+const appendAiDescriptionToReport = async (report, imageFile) => {
+  try {
+    const prompt = 'Eres un asistente de IA para operadores y despachadores del 911. ' +
+      'Analiza esta imagen y proporciona una descripción concisa y objetiva de lo que parece estar sucediendo. ' +
+      'Comienza con la información de emergencia más crítica: armas visibles, lesiones aparentes, número de personas involucradas y amenazas inmediatas. ' +
+      'Luego, describe la escena, los detalles de la ubicación y cualquier característica distintiva que ayude a los socorristas a identificar a los sujetos. ' +
+      'Si la situación parece implicar un delito, indica el escenario más probable (asalto, robo, extorsión, etc.). ' +
+      'Evita la especulación, pero ten en cuenta cualquier ambigüedad. ' +
+      'Formatea tu respuesta como un solo párrafo estructurado que un despachador pueda transmitir rápidamente a los oficiales que acudan. ' +
+      'Incluye solo lo que se pueda observar directamente en la imagen.';
+
+    const imageParts = [fileToGenerativePart(imageFile)];
+
+    const generateContentResult = await model.generateContent([prompt, ...imageParts]);
+
+    report.aiDescription = generateContentResult.response.text();
+  }
+  catch (error) {
+    console.error('Error al generar descripción de IA', error);
+
+    report.aiDescription = 'Error al generar descripción de IA.';
+  }
+  finally {
+    await report.save();
+
+    return report;
+  }
+}
+
+export default { describeImage, appendAiDescriptionToReport };
