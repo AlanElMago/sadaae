@@ -296,7 +296,7 @@
     },
     {
       "name": "file-test",
-      "type": "http://localhost:3000/v1/api/test/file",
+      "type": "http://localhost:3000/api/test/file",
       "ownerManagedAccess": false,
       "displayName": "File Test",
       "attributes": {},
@@ -308,6 +308,22 @@
         {
           "name": "read"
         },
+        {
+          "name": "upload"
+        }
+      ],
+      "icon_uri": ""
+    },
+    {
+      "name": "gemini-test",
+      "type": "http://localhost:3000/api/test/gemini",
+      "ownerManagedAccess": false,
+      "displayName": "Gemini Test",
+      "attributes": {},
+      "uris": [
+        "/test/gemini"
+      ],
+      "scopes": [
         {
           "name": "upload"
         }
@@ -578,6 +594,17 @@
       "decisionStrategy": "UNANIMOUS",
       "config": {
         "resources": "[\"file-test\"]",
+        "applyPolicies": "[\"Admins Test Policy\"]"
+      }
+    },
+    {
+      "name": "Gemini Test Permission",
+      "description": "Permiso de prueba que aplica a usuarios con rol de Administrador para acceder a los recursos de Gemini",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "resources": "[\"gemini-test\"]",
         "applyPolicies": "[\"Admins Test Policy\"]"
       }
     }
