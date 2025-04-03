@@ -18,6 +18,9 @@ const config = {
 
   SEAWEEDFS_MASTER_URL: process.env.SEAWEEDFS_MASTER_URL || 'http://localhost:8081',
   SEAWEEDFS_VOLUME_URL: process.env.SEAWEEDFS_VOLUME_URL || 'http://localhost:8082',
+
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
+  GEMINI_MODEL: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
 };
 
 export default config;
