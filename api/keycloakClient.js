@@ -159,7 +159,8 @@ const createResourcePermission = async (name, resourceId, ownerBearerToken, opti
     });
 
     if (response.status === http.constants.HTTP_STATUS_FORBIDDEN && response.data.error === 'invalid_bearer_token') {
-      return await keycloakClientInstance.refreshToken(() => createResourcePermission(name, resourceId, options));
+      return await keycloakClientInstance.refreshToken(
+        () => createResourcePermission(name, resourceId, ownerBearerToken, options));
     }
 
     return response;
