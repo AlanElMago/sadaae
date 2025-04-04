@@ -7,6 +7,76 @@ import { Report } from '../models/report.model.js';
 import seaweedfsService from '../services/seaweedfs.service.js';
 import geminiService from '../services/gemini.service.js';
 
+const getReports = async (req, res) => {
+  try {
+    const offset = parseInt(req.query.offset, 10) || 0;
+    const limit = parseInt(req.query.limit, 10) || 0;
+
+    const reports = await Report.find().skip(offset).limit(limit).exec();
+
+    return res.status(http.constants.HTTP_STATUS_OK).json(reports);
+  }
+  catch (error) {
+    console.error('Error al obtener reportes', error);
+
+    return res
+      .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error al obtener reportes' });
+  }
+};
+
+const getReportById = async (req, res) => {
+  try {
+    const reportId = req.params.id;
+
+    const report = await Report.findById(reportId).exec();
+
+    if (!report) {
+      return res
+        .status(http.constants.HTTP_STATUS_NOT_FOUND)
+        .json({ message: 'Reporte no encontrado' });
+    }
+
+    return res.status(http.constants.HTTP_STATUS_OK).json(report);
+  }
+  catch (error) {
+    console.error('Error al obtener reporte', error);
+
+    if (error.kind === 'ObjectId') {
+      return res
+        .status(http.constants.HTTP_STATUS_BAD_REQUEST)
+        .json({ message: 'ID de reporte inválido' });
+    }
+
+    return res
+      .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error al obtener reporte' });
+  }
+};
+
+const getReportByFolioNumber = async (req, res) => {
+  try {
+    const folioNumber = req.params.folioNumber;
+
+    const report = await Report.findOne({ folioNumber: folioNumber }).exec();
+
+    if (!report) {
+      return res
+        .status(http.constants.HTTP_STATUS_NOT_FOUND)
+        .json({ message: 'Reporte no encontrado' });
+    }
+
+    return res.status(http.constants.HTTP_STATUS_OK).json(report);
+  }
+  catch (error) {
+    console.error('Error al obtener reporte', error);
+
+    return res
+      .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error al obtener reporte' });
+  }
+};
+
 const submitReport = async (req, res) => {
   try {
     const cameraId = req.headers['camera-id'];
@@ -68,5 +138,8 @@ const submitReport = async (req, res) => {
 };
 
 export default {
+  get: getReports,
+  getById: getReportById,
+  getByFolioNumber: getReportByFolioNumber,
   submit: submitReport,
 };
