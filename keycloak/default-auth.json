@@ -329,6 +329,25 @@
         }
       ],
       "icon_uri": ""
+    },
+    {
+      "name": "Reports",
+      "type": "http://localhost:3000/api/v1/reports",
+      "ownerManagedAccess": false,
+      "displayName": "Reports",
+      "attributes": {},
+      "uris": [
+        "/v1/reports?{query_params}",
+        "/v1/reports/{id}",
+        "/v1/reports/by-folio-number/{folio_number}",
+        "/v1/reports"
+      ],
+      "scopes": [
+        {
+          "name": "read"
+        }
+      ],
+      "icon_uri": ""
     }
   ],
   "policies": [
@@ -606,6 +625,18 @@
       "config": {
         "resources": "[\"gemini-test\"]",
         "applyPolicies": "[\"Admins Test Policy\"]"
+      }
+    },
+    {
+      "name": "Operator or Admin Reports Permission",
+      "description": "Define lo que pueden hacer los usuarios con rol de Operador o Administrador a los recursos de reportes",
+      "type": "scope",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "resources": "[\"Reports\"]",
+        "scopes": "[\"read\"]",
+        "applyPolicies": "[\"Operators or Admins Policy\"]"
       }
     }
   ],
