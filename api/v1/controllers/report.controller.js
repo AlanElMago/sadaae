@@ -137,9 +137,41 @@ const submitReport = async (req, res) => {
   }
 };
 
+const appendPhotoToReport = async (req, res) => {
+  try {
+    const reportId = req.params.id;
+
+    const report = await Report.findById(reportId).exec();
+
+    if (!report) {
+      return res
+        .status(http.constants.HTTP_STATUS_NOT_FOUND)
+        .json({ message: 'Reporte no encontrado' });
+    }
+
+    const photoFid = await seaweedfsService.generateFid();
+    const uploadFileResponse = await seaweedfsService.uploadFile(photoFid, req.file);
+
+    report.photoBurst.photos.addToSet({ fid: photoFid });
+    await report.save();
+
+    return res
+      .status(http.constants.HTTP_STATUS_CREATED)
+      .json({ message: 'Foto anexada exitosamente', data: uploadFileResponse.data });
+  }
+  catch (error) {
+    console.error('Error al anexar foto al reporte', error);
+
+    return res
+      .status(http.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+      .json({ message: 'Error al anexar foto al reporte' });
+  }
+};
+
 export default {
   get: getReports,
   getById: getReportById,
   getByFolioNumber: getReportByFolioNumber,
   submit: submitReport,
+  appendPhoto: appendPhotoToReport,
 };

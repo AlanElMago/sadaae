@@ -11,5 +11,6 @@ router.get('/', requireAuth('read'), reportController.get);
 router.get('/:id', requireAuth('read'), reportController.getById);
 router.get('/by-folio-number/:folioNumber', requireAuth('read'), reportController.getByFolioNumber);
 router.post('/', requireApiKey, upload.single('photo'), reportController.submit);
+router.post('/append-photo/:id', requireApiKey, upload.single('photo'), reportController.appendPhoto);
 
 export default router;
