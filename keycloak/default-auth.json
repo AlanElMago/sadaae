@@ -348,6 +348,22 @@
         }
       ],
       "icon_uri": ""
+    },
+    {
+      "name": "Images",
+      "type": "http://localhost:3000/api/v1/images",
+      "ownerManagedAccess": false,
+      "displayName": "Images",
+      "attributes": {},
+      "uris": [
+        "/v1/images/{id}"
+      ],
+      "scopes": [
+        {
+          "name": "read"
+        }
+      ],
+      "icon_uri": ""
     }
   ],
   "policies": [
@@ -637,6 +653,17 @@
         "resources": "[\"Reports\"]",
         "scopes": "[\"read\"]",
         "applyPolicies": "[\"Operators or Admins Policy\"]"
+      }
+    },
+    {
+      "name": "Default Images Permission",
+      "description": "Permiso que aplica a cualquier usuario para acceder a los recursos de imágenes",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "resources": "[\"Images\"]",
+        "applyPolicies": "[\"Default Policy\"]"
       }
     }
   ],
