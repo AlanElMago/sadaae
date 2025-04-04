@@ -13,6 +13,7 @@ import geminiTestRoutes from './test/routes/geminiTest.routes.js';
 import cameraRoutes from './v1/routes/camera.routes.js';
 import customerRoutes from './v1/routes/customer.routes.js';
 import establishmentRoutes from './v1/routes/establishment.routes.js';
+import imageRoutes from './v1/routes/image.routes.js';
 import reportRoutes from './v1/routes/report.routes.js';
 
 await mongoose.connect(config.MONGO_URI, mongooseConnectOptions);
@@ -31,6 +32,7 @@ app.get('/api', (req, res) => res.status(http.constants.HTTP_STATUS_OK).json({ m
 app.use('/api/v1/establishments', establishmentRoutes);
 app.use('/api/v1/cameras', cameraRoutes);
 app.use('/api/v1/customer', customerRoutes);
+app.use('/api/v1/images', imageRoutes);
 app.use('/api/v1/reports', reportRoutes);
 
 app.use('/api/test/auth', requireAuth(), authTestRoutes);
