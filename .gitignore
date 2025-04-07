@@ -1,6 +1,7 @@
 # directorios
 .vscode
 node_modules
+__pycache__
 
 # archivos
 *.env
