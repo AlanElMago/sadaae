@@ -88,6 +88,19 @@ services:
     depends_on:
       - seaweedfs_master
 
+  nats:
+    container_name: sadaae-nats
+    image: nats:2.11.1
+    command:
+      - "-n=sadaae-nats"
+      - "-p=${NATS_CLIENT_PORT:-4222}"
+      - "-m=${NATS_HTTP_PORT:-8222}"
+    ports:
+      - ${NATS_CLIENT_PORT:-4222}:${NATS_CLIENT_PORT:-4222}
+      - ${NATS_HTTP_PORT:-8222}:${NATS_HTTP_PORT:-8222}
+    networks:
+      - local_network
+
   ### Servicio del RESTful API ###
   api:
     container_name: sadaae-api
