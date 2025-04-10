@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
 import config from '../../config/config.js';
+import { Report } from '../models/report.model.js';
 
 const genAI = new GoogleGenerativeAI(config.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
@@ -57,11 +58,13 @@ const describeImage = async (imageFile) => {
 
 /**
  * Agrega una descripción generada por IA a un reporte a partir de una imagen.
- * @param {import('mongoose').Document} report - Reporte al que se le agregará la descripción.
+ * @param {string} reportId - ID del reporte al que se le agregará la descripción.
  * @param {*} imageFile - Imagen a analizar (generado por Multer).
  * @returns {Promise<import('mongoose').Document>} Reporte actualizado.
  */
-const appendAiDescriptionToReport = async (report, imageFile) => {
+const appendAiDescriptionToReport = async (reportId, imageFile) => {
+  let aiDescription = '';
+
   try {
     const prompt = 'Eres un asistente de IA para operadores y despachadores del 911. ' +
       'Analiza esta imagen y proporciona una descripción concisa y objetiva de lo que parece estar sucediendo. ' +
@@ -76,15 +79,19 @@ const appendAiDescriptionToReport = async (report, imageFile) => {
 
     const generateContentResult = await model.generateContent([prompt, ...imageParts]);
 
-    report.aiDescription = generateContentResult.response.text();
+    aiDescription = generateContentResult.response.text();
   }
   catch (error) {
     console.error('Error al generar descripción de IA', error);
 
-    report.aiDescription = 'Error al generar descripción de IA.';
+    aiDescription = 'Error al generar descripción de IA.';
   }
   finally {
-    await report.save();
+    const report = await Report.findOneAndUpdate(
+      { _id: reportId },
+      { $set: { aiDescription: aiDescription } },
+      { new: true, upsert: false },
+    );
 
     return report;
   }

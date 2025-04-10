@@ -115,7 +115,7 @@ const submitReport = async (req, res) => {
     await report.save();
 
     if (config.GEMINI_API_KEY) {
-      geminiService.appendAiDescriptionToReport(report, req.file);
+      geminiService.appendAiDescriptionToReport(report.id, req.file);
     }
 
     return res
@@ -141,7 +141,7 @@ const appendPhotoToReport = async (req, res) => {
   try {
     const reportId = req.params.id;
 
-    const report = await Report.findById(reportId).exec();
+    const report = await Report.exists({ _id: reportId }).exec();
 
     if (!report) {
       return res
@@ -152,8 +152,11 @@ const appendPhotoToReport = async (req, res) => {
     const photoFid = await seaweedfsService.generateFid();
     const uploadFileResponse = await seaweedfsService.uploadFile(photoFid, req.file);
 
-    report.photoBurst.photos.addToSet({ fid: photoFid });
-    await report.save();
+    await Report.findOneAndUpdate(
+      { _id: reportId },
+      { $addToSet: { "photoBurst.photos": { fid: photoFid } } },
+      { upsert: false },
+    );
 
     return res
       .status(http.constants.HTTP_STATUS_CREATED)
