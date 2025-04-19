@@ -112,6 +112,30 @@ services:
     networks:
       - local_network
 
+  ### Servicio de Notificaciones ###
+  notifications:
+    container_name: sadaae-notifications
+    image: alanelmago/sadaae-api:0.1.0
+    build:
+      context: notifications
+      target: ${TARGET:-debug}
+    develop:
+      watch:
+        - action: sync
+          path: notifications
+          target: /app
+          ignore:
+            - api/node_modules
+    env_file:
+      - path: notifications/default.env
+        required: true
+      - path: notifications/override.env
+        required: false
+    ports:
+      - ${NOTIFICATIONS_PORT:-3001}:${NOTIFICATIONS_PORT:-3001}
+    networks:
+      - local_network
+
 networks:
   local_network:
     driver: bridge
