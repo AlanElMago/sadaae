@@ -9,14 +9,14 @@ NOTIFICATIONS_URL: Final = "http://localhost:3001"
 sio = socketio.AsyncClient()
 
 @sio.event
-async def connect():
+async def connect() -> None:
     print("Conectado al servidor de notificaciones")
 
 @sio.event
-async def disconnect():
+async def disconnect() -> None:
     print("Desconnectado del servidor de notificaciones")
 
-async def main():
+async def main() -> None:
     await sio.connect(NOTIFICATIONS_URL)
 
     prompt = "Enviar mensaje ('salir' para salir): "
