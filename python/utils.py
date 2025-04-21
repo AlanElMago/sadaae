@@ -47,7 +47,10 @@ def validate_response(response: Response, status_code: int) -> dict:
         raise ValueError("La respuesta contiene JSON inválido")
 
     if response.status_code != status_code:
-        message = json['message'] or response.reason
+        try:
+            message = json['message']
+        except KeyError:
+            message = response.reason
 
         print("Error")
         print(f"🔢 Status Code: {response.status_code}")
