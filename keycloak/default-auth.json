@@ -88,7 +88,7 @@
       "displayName": "Authorization Test",
       "attributes": {},
       "uris": [
-        "/test/auth/protect"
+        "/test/auth/protected"
       ],
       "icon_uri": ""
     },
