@@ -93,6 +93,14 @@
       "containerId" : "f380d00d-195c-43d2-b462-886c0a9577c0",
       "attributes" : { }
     }, {
+      "id" : "fd8b996c-470b-4fbc-9f77-84cc6ffc79e3",
+      "name" : "api",
+      "description" : "Role de API para SADAAE",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "f380d00d-195c-43d2-b462-886c0a9577c0",
+      "attributes" : { }
+    }, {
       "id" : "0a14412c-8ca1-4977-aac0-58799dccf269",
       "name" : "offline_access",
       "description" : "${role_offline-access}",
@@ -519,7 +527,7 @@
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-sadaae", "camera" ],
+    "realmRoles" : [ "default-roles-sadaae", "camera", "api" ],
     "clientRoles" : {
       "sadaae-api" : [ "uma_protection" ]
     },
