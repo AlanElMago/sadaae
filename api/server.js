@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import http from 'http2';
 import mongoose from 'mongoose';
@@ -28,6 +29,7 @@ const app = express();
 // middleware
 app.use(express.json());
 app.use(validateJwt);
+app.use(cors({ origin: config.ALLOWED_ORIGINS, credentials: true }));
 
 // rutas
 app.get('/api', (req, res) => res.status(http.constants.HTTP_STATUS_OK).json({ message: 'Hola, Mundo!' }));
