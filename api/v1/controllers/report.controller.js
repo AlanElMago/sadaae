@@ -6,6 +6,7 @@ import { Establishment } from '../models/establishment.model.js';
 import { Report } from '../models/report.model.js';
 import seaweedfsService from '../services/seaweedfs.service.js';
 import geminiService from '../services/gemini.service.js';
+import notificationService from '../services/notification.service.js';
 
 const getReports = async (req, res) => {
   try {
@@ -113,6 +114,8 @@ const submitReport = async (req, res) => {
     }
 
     await report.save();
+
+    notificationService.sendNotificationAlert(report.id);
 
     if (config.GEMINI_API_KEY) {
       geminiService.appendAiDescriptionToReport(report.id, req.file);

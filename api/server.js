@@ -15,11 +15,13 @@ import customerRoutes from './v1/routes/customer.routes.js';
 import establishmentRoutes from './v1/routes/establishment.routes.js';
 import imageRoutes from './v1/routes/image.routes.js';
 import reportRoutes from './v1/routes/report.routes.js';
+import notificationService from './v1/services/notification.service.js';
 
 await mongoose.connect(config.MONGO_URI, mongooseConnectOptions);
 await keycloakClient.connect(config.KC_REALM_URL, config.KC_CLIENT_ID, config.KC_CLIENT_SECRET, () => {
   console.log('Conexión a Keycloak exitosa');
 });
+await notificationService.connect();
 
 const app = express();
 
