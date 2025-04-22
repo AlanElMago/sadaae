@@ -4,6 +4,7 @@ import requests
 import socketio
 import socketio.exceptions
 
+from datetime import datetime
 from typing import Final
 from oauthlib.oauth2.rfc6749.errors import InvalidGrantError
 from requests_oauthlib import OAuth2Session
@@ -35,11 +36,12 @@ async def error(error_message) -> None:
 
 @sio.event
 async def alert(data: dict) -> None:
-    print("\n¡Alerta de Asalto/Extorsión!\n")
+    print(f"\n[{datetime.now()}] ¡Alerta de Asalto/Extorsión!\n")
 
     report = fetch_report(data["report_id"]);
     print_json_data(report)
 
+    print(f"\n[{datetime.now()}] Reporte recibido")
     print(f"\nRefrescando reporte en {REPORT_REFRESH_TIME} segundos...\n")
     await asyncio.sleep(REPORT_REFRESH_TIME)
 

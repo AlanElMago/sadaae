@@ -1,4 +1,6 @@
 import requests
+
+from datetime import datetime
 from typing import Final
 
 from utils import print_json_data, validate_response
@@ -45,10 +47,14 @@ def append_photos(camera_id: str, api_key: str, report_id: str) -> None:
             ),
         }
 
+        img_progress = f"{i:02}/{img_count:02}"
+
+        print(f"[{datetime.now()}] Subiendo foto {img_progress}...")
+
         response = requests.post(uri, headers=headers, files=files)
         validate_response(response, requests.codes.created)
 
-        print(f"Foto {i:02}/{img_count:02} subida correctamente")
+        print(f"[{datetime.now()}] Foto {img_progress} subida correctamente")
 
 def submit_report(camera_id: str, api_key: str) -> requests.Response:
     report_example = report_examples[REPORT_EXAMPLE_INDEX]
@@ -71,6 +77,8 @@ def submit_report(camera_id: str, api_key: str) -> requests.Response:
         ),
     }
 
+    print(f"\n[{datetime.now()}] Enviando reporte...\n")
+
     return requests.post(uri, headers=headers, data=data, files=files)
 
 def main() -> None:
@@ -80,7 +88,7 @@ def main() -> None:
     response = submit_report(camera_id, api_key)
     json = validate_response(response, requests.codes.created)
 
-    print("\n201 Created\n")
+    print(f"\n[{datetime.now()}] 201 Created\n")
     print_json_data(json)
 
     report_id = json["data"]["_id"]
