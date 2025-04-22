@@ -6,3 +6,4 @@ __pycache__
 # archivos
 *.env
 !default.env
+docker-compose.staging.yml
