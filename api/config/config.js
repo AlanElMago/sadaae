@@ -21,6 +21,8 @@ const config = {
 
   GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
   GEMINI_MODEL: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
+
+  NOTIFICATIONS_SERVER_URL: process.env.NOTIFICATIONS_SERVER_URL || 'http://localhost:3001',
 };
 
 export default config;
