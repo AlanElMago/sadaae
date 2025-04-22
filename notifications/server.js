@@ -52,6 +52,12 @@ io.on('connection', (socket) => {
     io.to('emergency-alerts').emit('test-response-message', data);
   });
 
+  socket.on('alert', (data) => {
+    console.log(`Reporte recibido: ${data.report_id}`);
+
+    io.to('emergency-alerts').emit('alert', data);
+  })
+
   socket.on('disconnect', () => {
     console.log(`Usuario desconectado: ${socket.user.id}`);
   });
