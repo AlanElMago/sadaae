@@ -8,6 +8,7 @@ from typing import Final
 from utils import print_json_data, validate_response
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' # solo para desarrollo
+token: dict = {}
 
 API_AUTH_TEST_ENDPOINT: Final = "http://localhost:3000/api/test/auth/protected"
 CLIENT_ID: Final = "sadaae-api"
@@ -17,9 +18,25 @@ OPERATOR_USER_PASSWORD: Final = "operator1234%"
 OIDC_TOKEN_URI: Final = \
     "http://localhost:8080/realms/sadaae/protocol/openid-connect/token"
 
+def token_updater(new_token: dict) -> None:
+    global token
+
+    token = new_token
+
 def login(email: str, password: str) -> OAuth2Session:
+    auto_refresh_kwargs = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+
     client = LegacyApplicationClient(client_id=CLIENT_ID)
-    oauth = OAuth2Session(client=client)
+
+    oauth = OAuth2Session(
+        client=client,
+        token=token,
+        auto_refresh_url=OIDC_TOKEN_URI,
+        token_updater=token_updater,
+        auto_refresh_kwargs=auto_refresh_kwargs)
 
     oauth.fetch_token(
         token_url=OIDC_TOKEN_URI,
