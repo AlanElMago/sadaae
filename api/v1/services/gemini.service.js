@@ -92,6 +92,7 @@ const appendAiDescriptionToReport = async (reportId, imageFile) => {
       { $set: { aiDescription: aiDescription } },
       { new: true, upsert: false },
     );
+    console.log(`[${new Date()}] Descripción IA generada: ${report.id}`);
 
     return report;
   }
