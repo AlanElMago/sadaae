@@ -2,6 +2,8 @@ const config = {
   API_PORT: process.env.API_PORT || 3000,
   API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:3000/api',
 
+  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS?.split(', ') || ['http://localhost:3000'],
+
   KC_REALM_URL: process.env.KC_REALM_URL || 'http://localhost:8080/realms/sadaae',
   KC_CLIENT_ID: process.env.KC_CLIENT_ID || 'sadaae-api',
   KC_CLIENT_SECRET: process.env.KC_CLIENT_SECRET || 'my-client-secret',
