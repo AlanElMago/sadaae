@@ -171,6 +171,22 @@ const createResourcePermission = async (name, resourceId, ownerBearerToken, opti
 };
 
 /**
+ * Obtiene el token de acceso del cliente de Keycloak
+ * @returns {string} Token de acceso
+ */
+const getAccessToken = () => {
+  return keycloakClientInstance.token.access_token;
+}
+
+/**
+ * Refresca el token de acceso y lo devuelve
+ * @returns {Promise<string>} Promesa con el token de acceso actualizado
+ */
+const refreshAccessToken = async () => {
+  return await keycloakClientInstance.refreshToken(() => getAccessToken());
+}
+
+/**
  * Conecta el cliente de Keycloak a una instancia de Keycloak
  * @param {string} baseUrl - URL base de Keycloak
  * @param {string} clientId - ID del cliente
@@ -187,4 +203,10 @@ const connect = async (baseUrl, clientId, clientSecret, callback = () => {}) => 
   callback();
 };
 
-export default { connect, createUmaResource, createResourcePermission };
+export default {
+  connect,
+  createUmaResource,
+  createResourcePermission,
+  getAccessToken,
+  refreshAccessToken,
+};
