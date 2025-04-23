@@ -114,7 +114,7 @@ const submitReport = async (req, res) => {
     }
 
     await report.save();
-    console.log(`[${new Date()}] Reporte creado: ${report.id}`);
+    console.log(`[${new Date().toISOString()}] Reporte creado: ${report.id}`);
 
     notificationService.sendNotificationAlert(report.id);
 
@@ -161,7 +161,7 @@ const appendPhotoToReport = async (req, res) => {
       { $addToSet: { "photoBurst.photos": { fid: photoFid } } },
       { upsert: false },
     );
-    console.log(`[${new Date()}] Imagen anexada: ${reportId}`);
+    console.log(`[${new Date().toISOString()}] Imagen anexada: ${reportId}`);
 
     return res
       .status(http.constants.HTTP_STATUS_CREATED)

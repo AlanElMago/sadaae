@@ -53,7 +53,7 @@ const sendNotificationAlert = async (report_id) => {
 
   try {
     socket.emit('alert', { 'report_id': report_id });
-    console.log(`[${new Date()}] Notificación enviada: ${report_id}`);
+    console.log(`[${new Date().toISOString()}] Notificación enviada: ${report_id}`);
   }
   catch (error) {
     console.error('Error al enviar notificación de alerta: ', error);
